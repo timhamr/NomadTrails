@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nomad Trails Campervan Rentals – Personal Assistant Chat</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --brand-primary: #1464A0;
+            --brand-secondary: #F1F6FB;
+            --brand-accent: #FF8A32;
+            --text-primary: #1F2A37;
+            --text-secondary: #4B5563;
+            --border-color: #D1D5DB;
+            --assistant-bg: #E5F2FF;
+            --user-bg: #1464A0;
+            --bg: #FFFFFF;
+            --timestamp-color: #6B7280;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg);
+            color: var(--text-primary);
+            display: flex;
+            min-height: 100vh;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        header {
+            width: 320px;
+            background: linear-gradient(180deg, #103F6A 0%, #0C2C45 100%);
+            color: #F9FAFB;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 36px 32px;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            margin: 0 0 16px;
+        }
+
+        header p {
+            margin: 6px 0;
+            line-height: 1.5;
+            color: rgba(249, 250, 251, 0.82);
+        }
+
+        header .brand-tagline {
+            margin-top: 24px;
+            padding: 16px;
+            border-radius: 12px;
+            background: rgba(20, 100, 160, 0.25);
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 24px 32px;
+            background-color: #F6FAFE;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .chat-shell {
+            margin: 0 auto;
+            width: min(900px, 100%);
+            background: #FFFFFF;
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            box-shadow: 0 25px 45px rgba(17, 24, 39, 0.08);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            height: 100%;
+        }
+
+        .chat-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 24px 28px;
+            border-bottom: 1px solid var(--border-color);
+            background: linear-gradient(90deg, rgba(20, 100, 160, 0.08), rgba(20, 100, 160, 0));
+        }
+
+        .chat-header-avatar {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: rgba(20, 100, 160, 0.12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 18px;
+            color: var(--brand-primary);
+            position: relative;
+        }
+
+        .chat-header-avatar::after {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #34D399;
+            border: 2px solid #FFFFFF;
+            bottom: 4px;
+            right: 4px;
+        }
+
+        .chat-header-text h2 {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .chat-header-text span {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .chat-header-text .online-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: #059669;
+            font-weight: 500;
+            margin-top: 6px;
+        }
+
+        .chat-header-text .online-status::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #34D399;
+            box-shadow: 0 0 0 4px rgba(52, 211, 153, 0.2);
+        }
+
+        .chat-messages {
+            padding: 28px;
+            flex: 1;
+            overflow-y: auto;
+            background: linear-gradient(180deg, rgba(241, 246, 251, 0.65), rgba(255, 255, 255, 1));
+            min-height: 0;
+        }
+
+        .message-row {
+            display: flex;
+            margin-bottom: 18px;
+        }
+
+        .message-row.assistant {
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .message-row.user {
+            justify-content: flex-end;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 4px;
+        }
+
+        .assistant .message-bubble {
+            background: var(--assistant-bg);
+            color: var(--text-primary);
+            border-radius: 20px;
+            border-top-left-radius: 6px;
+            padding: 14px 18px;
+            max-width: 85%;
+            position: relative;
+            box-shadow: 0 6px 15px rgba(20, 100, 160, 0.08);
+        }
+
+        .user .message-bubble {
+            background: var(--user-bg);
+            color: #FFFFFF;
+            border-radius: 20px;
+            border-top-right-radius: 6px;
+            padding: 14px 18px;
+            max-width: 85%;
+            position: relative;
+            box-shadow: 0 6px 20px rgba(20, 100, 160, 0.25);
+        }
+
+        .assistant .meta,
+        .user .meta {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .assistant .meta span:first-child {
+            font-weight: 600;
+            color: var(--brand-primary);
+        }
+
+        .user .meta span:first-child {
+            font-weight: 600;
+            color: #FFFFFF;
+        }
+
+        .meta .timestamp {
+            color: var(--timestamp-color);
+            font-weight: 400;
+            font-size: 12px;
+        }
+
+        .message-row.user .timestamp {
+            color: rgba(255, 255, 255, 0.75);
+        }
+
+        .message-row.user .delivery-status {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            color: #9CA3AF;
+            font-weight: 400;
+            padding-right: 4px;
+        }
+
+        .message-row.user .delivery-status svg {
+            width: 16px;
+            height: 16px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .chat-input-area {
+            border-top: 1px solid var(--border-color);
+            padding: 22px 24px;
+            background: #FFFFFF;
+            display: flex;
+            gap: 12px;
+        }
+
+        textarea#userInput {
+            flex: 1;
+            resize: none;
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 14px 16px;
+            font-family: inherit;
+            font-size: 15px;
+            line-height: 1.5;
+            transition: border 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        textarea#userInput:focus {
+            outline: none;
+            border-color: var(--brand-primary);
+            box-shadow: 0 0 0 3px rgba(20, 100, 160, 0.15);
+        }
+
+        button#sendButton {
+            padding: 0 26px;
+            border-radius: 14px;
+            background: var(--brand-primary);
+            border: none;
+            color: #FFFFFF;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+
+        button#sendButton:disabled {
+            background: #93B4D1;
+            cursor: not-allowed;
+        }
+
+        button#sendButton:not(:disabled):hover {
+            background: #0E4F80;
+            transform: translateY(-1px);
+        }
+
+        .typing-indicator {
+            font-size: 14px;
+            color: var(--text-secondary);
+            padding: 12px 18px;
+            border-radius: 16px;
+            background: rgba(20, 100, 160, 0.08);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .typing-dots span {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            display: inline-block;
+            background: var(--brand-primary);
+            animation: blink 1.2s infinite ease-in-out;
+        }
+
+        .typing-dots span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        .typing-dots span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes blink {
+            0%, 80%, 100% { opacity: 0.2; transform: translateY(0); }
+            40% { opacity: 1; transform: translateY(-2px); }
+        }
+
+        .assistant-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(20, 100, 160, 0.12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: var(--brand-primary);
+        }
+
+        .assistant .assistant-avatar {
+            margin-top: 6px;
+        }
+
+        .assistant .message-content {
+            max-width: 85%;
+        }
+
+        .options-grid {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 18px;
+            margin-top: 12px;
+            overflow-x: auto;
+            padding-bottom: 6px;
+        }
+
+        .option-card {
+            border: 1px solid var(--border-color);
+            border-radius: 18px;
+            padding: 18px;
+            background: linear-gradient(180deg, rgba(20, 100, 160, 0.05), rgba(255, 255, 255, 0.95));
+            box-shadow: 0 12px 24px rgba(20, 100, 160, 0.08);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            min-width: 220px;
+            max-width: 280px;
+        }
+
+        .option-card picture {
+            width: 100%;
+            height: 160px;
+            border-radius: 14px;
+            background: #FFFFFF;
+            box-shadow: 0 10px 18px rgba(15, 23, 42, 0.18);
+            display: block;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option-card .option-label {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            padding: 6px 12px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.92);
+            color: var(--brand-primary);
+            border: 1px solid rgba(20, 100, 160, 0.18);
+            box-shadow: 0 6px 14px rgba(15, 23, 42, 0.12);
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+        }
+
+        .option-card picture img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .option-card h4 {
+            margin: 0 0 10px;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--brand-primary);
+        }
+
+        .option-card .option-subtitle {
+            margin: 0;
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        .option-card .option-price {
+            margin: 4px 0 0;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .option-card .option-summary {
+            margin: 0;
+            font-size: 12.5px;
+            color: var(--text-secondary);
+            line-height: 1.4;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .end-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.55);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 20;
+        }
+
+        .end-overlay.active {
+            display: flex;
+        }
+
+        .end-modal {
+            width: min(420px, 90vw);
+            background: #FFFFFF;
+            border-radius: 20px;
+            padding: 32px;
+            text-align: center;
+            box-shadow: 0 22px 45px rgba(15, 23, 42, 0.2);
+        }
+
+        .end-modal h3 {
+            margin-top: 0;
+            font-size: 22px;
+        }
+
+        .end-modal p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 28px;
+        }
+
+        .end-modal button {
+            background: var(--brand-accent);
+            color: #FFFFFF;
+            border: none;
+            border-radius: 14px;
+            padding: 12px 24px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+
+        .end-modal button:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        @media (max-width: 1080px) {
+            body {
+                flex-direction: column;
+            }
+            header {
+                width: 100%;
+                border-bottom-left-radius: 32px;
+                border-bottom-right-radius: 32px;
+            }
+            main {
+                padding: 20px;
+            }
+            .chat-shell {
+                border-radius: 20px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .chat-messages {
+                height: 480px;
+                padding: 20px;
+            }
+            .chat-header {
+                padding: 18px 20px;
+            }
+            .chat-input-area {
+                flex-direction: column;
+            }
+            button#sendButton {
+                width: 100%;
+                height: 48px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div>
+            <h1>Nomad Trails Campervan Rentals</h1>
+            <p>459 Evergreen Avenue<br>Portland, OR 97209, USA</p>
+            <p>Email: <a href="mailto:hello@nomadtrailsvans.com" style="color:#F9FAFB;">hello@nomadtrailsvans.com</a><br>
+               Phone: <a href="tel:+15035551234" style="color:#F9FAFB;">+1 (503) 555-1234</a></p>
+            <div class="brand-tagline">
+                Adventure-ready vehicles, fully equipped for your next road trip. Tell us about your plans and we’ll match you with the perfect campervan.
+            </div>
+        </div>
+        <footer style="font-size:13px; color:rgba(249,250,251,0.65);">
+            © 2025 Nomad Trails Campervan Rentals. All rights reserved.
+        </footer>
+    </header>
+
+    <main>
+        <div class="chat-shell">
+            <div class="chat-header">
+                <div class="chat-header-avatar" aria-label="Personal Assistant online">PA</div>
+                <div class="chat-header-text">
+                    <h2>Personal Assistant</h2>
+                    <span>Nomad Trails Campervan Rentals</span>
+                    <div class="online-status" role="status" aria-live="polite">Online</div>
+                </div>
+            </div>
+            <div class="chat-messages" id="chatMessages" aria-live="polite"></div>
+            <div class="chat-input-area">
+                <textarea id="userInput" rows="1" placeholder="Type your reply here..." autocomplete="off" disabled></textarea>
+                <button id="sendButton" type="button" disabled>Send</button>
+            </div>
+        </div>
+    </main>
+
+    <div class="end-overlay" id="endOverlay">
+        <div class="end-modal">
+            <h3>Thanks for sharing your plans!</h3>
+            <p>Our personal assistant saved the information you provided. A Nomad Trails specialist will follow up shortly with photos and booking details.</p>
+            <button id="closeOverlayButton" type="button">Close chat</button>
+        </div>
+    </div>
+
+    <script>
+        const chatMessagesEl = document.getElementById('chatMessages');
+        const userInputEl = document.getElementById('userInput');
+        const sendButtonEl = document.getElementById('sendButton');
+        const endOverlayEl = document.getElementById('endOverlay');
+        const closeOverlayButtonEl = document.getElementById('closeOverlayButton');
+
+        const assistantName = 'Nomad Trails Personal Assistant';
+        const userName = 'You';
+
+        const vanIllustrations = [
+            {
+                webp: 'Blue.webp',
+                fallback: 'Blue.png',
+                alt: 'Pacific Horizon XL campervan'
+            },
+            {
+                webp: 'Orange.webp',
+                fallback: 'Orange.png',
+                alt: 'Sunset Seeker L2 campervan'
+            },
+            {
+                webp: 'Green.webp',
+                fallback: 'Green.png',
+                alt: 'Evergreen Trekker 4x4 campervan'
+            }
+        ];
+
+        const scenarioSteps = [
+            { kind: 'bot', delay: 5000, text: 'Hi, welcome to Nomad Trails Campervan Rentals! I’m your personal assistant. How can I help you today?' },
+            { kind: 'userPrompt' },
+            { kind: 'bot', delay: 5000, text: 'Okay, I see. Let\'s find out which camper might be a good fit for you. How many people will be traveling with you? Are you travelling with adults only or are there kids travelling with you?' },
+            { kind: 'userPrompt' },
+            { kind: 'bot', delay: 5000, text: 'In view of your travel constellation, would you like separate sleeping areas, for example one space for adults and one space for kids?' },
+            { kind: 'userPrompt' },
+            { kind: 'bot', delay: 5000, text: 'Okay, noted. In which month and for how long do you plan to travel with the camper van? ' },
+            { kind: 'userPrompt' },
+            { kind: 'bot', delay: 5000, text: 'For a trip that length, the bathroom setup is important. Do you prefer a shower and toilet inside the campervan, or are you fine using campground facilities?' },
+            { kind: 'userPrompt' },
+            { kind: 'bot', delay: 5000, text: 'Mhm, I understand. Apart from the mentioned aspects, are there any specific features that are important to you?' },
+            { kind: 'userPrompt' },
+            { kind: 'bot', delay: 5000, text: 'Okay, I will take this into account in my recommendations. To tailor them to your budget, please let me know how much you plan to spend on your camper rental per day. What is your approximate rental budget per day?' },
+            { kind: 'userPrompt' },
+            { kind: 'bot', delay: 5000, text: 'Good, we are getting there. I will now check the availability of our campers that match your preferences.' },
+            { kind: 'bot', delay: 20000, text: 'Here we go—these are the three options that best suit your preferences:' },
+            {
+                kind: 'options',
+                cards: [
+                    {
+                        title: 'Pacific Horizon XL',
+                        subtitle: 'Spacious layout ideal for young families or two couples.',
+                        price: '$150 per night',
+                        summary: 'Seats 4 · Sleeps 4 · Shower+WC · Solar · Rear garage',
+                        label: 'Option 1',
+                        image: vanIllustrations[0]
+                    },
+                    {
+                        title: 'Sunset Seeker L2',
+                        subtitle: 'Mid-size van for adventurous pairs wanting premium comfort.',
+                        price: '$100 per night',
+                        summary: 'Seats 4 · Sleeps 4 · Fixed bed · Induction galley · Diesel heater',
+                        label: 'Option 2',
+                        image: vanIllustrations[1]
+                    },
+                    {
+                        title: 'Evergreen Trekker 4x4',
+                        subtitle: 'All-terrain build for off-grid escapes up the coast or into the woods.',
+                        price: '$135 per night',
+                        summary: 'Seats 4 · Sleeps 4 · 4x4 lift · Wet bath · Solar & 40 gal water',
+                        label: 'Option 3',
+                        image: vanIllustrations[2]
+                    }
+                ]
+            },
+            { kind: 'bot', delay: 5000, text: 'Which one is your favorite option?' },
+            { kind: 'userPrompt' },
+            { kind: 'bot', delay: 5000, text: 'Alright - do you want me to reserve this camper for you? Reservations hold for one week and are free of charge, with no obligation for you.' },
+            { kind: 'userPrompt' },
+            { kind: 'bot', delay: 20000, text: 'So, the reservation is completed now and the camper is reserved for you. Your reservation number is A250. You have now one week to confirm the reservation by phone or by mail. \nIs there anything else I can do for you?' },
+            { kind: 'userPrompt' },
+            { kind: 'bot', delay: 5000, text: 'Thanks for the conversation, and enjoy your vacation.' }
+        ];
+
+        let currentStepIndex = 0;
+        let typingIndicatorEl = null;
+
+        function getTimestamp() {
+            const now = new Date();
+            return now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
+
+        function scrollToBottom() {
+            chatMessagesEl.scrollTo({ top: chatMessagesEl.scrollHeight, behavior: 'smooth' });
+        }
+
+        function addMessage({ role, text }) {
+            const row = document.createElement('div');
+            row.className = `message-row ${role}`;
+
+            if (role === 'assistant') {
+                const avatar = document.createElement('div');
+                avatar.className = 'assistant-avatar';
+                avatar.textContent = 'PA';
+                row.appendChild(avatar);
+
+                const contentWrapper = document.createElement('div');
+                contentWrapper.className = 'message-content';
+
+                const meta = document.createElement('div');
+                meta.className = 'meta';
+                meta.innerHTML = `<span>${assistantName}</span><span class="timestamp">${getTimestamp()}</span>`;
+                contentWrapper.appendChild(meta);
+
+                const bubble = document.createElement('div');
+                bubble.className = 'message-bubble';
+                text.split('\n').forEach((segment, index) => {
+                    const paragraph = document.createElement('p');
+                    paragraph.style.margin = index === 0 ? '0 0 8px' : '0 0 8px';
+                    paragraph.textContent = segment.trim();
+                    if (index === text.split('\n').length - 1) {
+                        paragraph.style.marginBottom = '0';
+                    }
+                    bubble.appendChild(paragraph);
+                });
+                contentWrapper.appendChild(bubble);
+                row.appendChild(contentWrapper);
+            } else {
+                const bubble = document.createElement('div');
+                bubble.className = 'message-bubble';
+
+                const meta = document.createElement('div');
+                meta.className = 'meta';
+                const nameSpan = document.createElement('span');
+                nameSpan.textContent = userName;
+                meta.appendChild(nameSpan);
+
+                const timestampSpan = document.createElement('span');
+                timestampSpan.className = 'timestamp';
+                timestampSpan.textContent = getTimestamp();
+                meta.appendChild(timestampSpan);
+
+                bubble.appendChild(meta);
+
+                const paragraph = document.createElement('p');
+                paragraph.style.margin = '0';
+                paragraph.textContent = text;
+                bubble.appendChild(paragraph);
+
+                row.appendChild(bubble);
+
+                const deliverySpan = document.createElement('div');
+                deliverySpan.className = 'delivery-status';
+                deliverySpan.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline><polyline points="20 12 9 23 4 18"></polyline></svg>`;
+                row.appendChild(deliverySpan);
+            }
+
+            chatMessagesEl.appendChild(row);
+            scrollToBottom();
+        }
+
+        function showTypingIndicator() {
+            removeTypingIndicator();
+            const wrapper = document.createElement('div');
+            wrapper.className = 'message-row assistant';
+
+            const avatar = document.createElement('div');
+            avatar.className = 'assistant-avatar';
+            avatar.textContent = 'PA';
+            wrapper.appendChild(avatar);
+
+            const indicator = document.createElement('div');
+            indicator.className = 'typing-indicator';
+            indicator.innerHTML = `<span>${assistantName} is typing</span><span class="typing-dots"><span></span><span></span><span></span></span>`;
+
+            wrapper.appendChild(indicator);
+            chatMessagesEl.appendChild(wrapper);
+            typingIndicatorEl = wrapper;
+            scrollToBottom();
+        }
+
+        function removeTypingIndicator() {
+            if (typingIndicatorEl && typingIndicatorEl.parentNode) {
+                typingIndicatorEl.parentNode.removeChild(typingIndicatorEl);
+            }
+            typingIndicatorEl = null;
+        }
+
+        function renderOptions(cards) {
+            const row = document.createElement('div');
+            row.className = 'message-row assistant';
+
+            const avatar = document.createElement('div');
+            avatar.className = 'assistant-avatar';
+            avatar.textContent = 'PA';
+            row.appendChild(avatar);
+
+            const contentWrapper = document.createElement('div');
+            contentWrapper.className = 'message-content';
+
+            const meta = document.createElement('div');
+            meta.className = 'meta';
+            meta.innerHTML = `<span>${assistantName}</span><span class="timestamp">${getTimestamp()}</span>`;
+            contentWrapper.appendChild(meta);
+
+            const optionsWrapper = document.createElement('div');
+            optionsWrapper.className = 'options-grid';
+
+            cards.forEach(card => {
+                const optionCard = document.createElement('div');
+                optionCard.className = 'option-card';
+
+                if (card.image) {
+                    const picture = document.createElement('picture');
+                    if (card.image.webp) {
+                        const webpSource = document.createElement('source');
+                        webpSource.srcset = card.image.webp;
+                        webpSource.type = 'image/webp';
+                        picture.appendChild(webpSource);
+                    }
+
+                    const img = document.createElement('img');
+                    const fallbackSrc = card.image.fallback || card.image.src;
+                    if (fallbackSrc) {
+                        img.src = fallbackSrc;
+                    }
+                    img.alt = card.image.alt || `${card.title} campervan`;
+                    img.loading = 'lazy';
+                    picture.appendChild(img);
+                    if (card.label) {
+                        const label = document.createElement('span');
+                        label.className = 'option-label';
+                        label.textContent = card.label;
+                        picture.appendChild(label);
+                    }
+                    optionCard.appendChild(picture);
+                }
+
+                const title = document.createElement('h4');
+                title.textContent = card.title;
+                optionCard.appendChild(title);
+
+                if (card.subtitle) {
+                    const subtitle = document.createElement('p');
+                    subtitle.className = 'option-subtitle';
+                    subtitle.textContent = card.subtitle;
+                    optionCard.appendChild(subtitle);
+                }
+
+                if (card.price) {
+                    const price = document.createElement('p');
+                    price.className = 'option-price';
+                    price.textContent = card.price;
+                    optionCard.appendChild(price);
+                }
+
+                if (card.summary) {
+                    const summary = document.createElement('p');
+                    summary.className = 'option-summary';
+                    summary.textContent = card.summary;
+                    optionCard.appendChild(summary);
+                }
+
+                optionsWrapper.appendChild(optionCard);
+            });
+
+            contentWrapper.appendChild(optionsWrapper);
+            row.appendChild(contentWrapper);
+            chatMessagesEl.appendChild(row);
+            scrollToBottom();
+        }
+
+        function enableUserInput() {
+            userInputEl.disabled = false;
+            sendButtonEl.disabled = userInputEl.value.trim().length === 0;
+            userInputEl.focus();
+        }
+
+        function disableUserInput() {
+            userInputEl.disabled = true;
+            sendButtonEl.disabled = true;
+        }
+
+        function advanceScenario() {
+            if (currentStepIndex >= scenarioSteps.length) {
+                finishScenario();
+                return;
+            }
+
+            const step = scenarioSteps[currentStepIndex];
+
+            if (step.kind === 'bot') {
+                disableUserInput();
+                removeTypingIndicator();
+
+                const totalDelay = step.delay;
+                const preTypingDelay = totalDelay === 5000 ? 1000 : 0;
+                let typingIndicatorTimeout;
+                let typingIndicatorDisplayed = false;
+
+                const triggerTypingIndicator = () => {
+                    if (!typingIndicatorDisplayed) {
+                        showTypingIndicator();
+                        typingIndicatorDisplayed = true;
+                    }
+                };
+
+                if (preTypingDelay > 0) {
+                    typingIndicatorTimeout = setTimeout(triggerTypingIndicator, preTypingDelay);
+                } else {
+                    triggerTypingIndicator();
+                }
+
+                setTimeout(() => {
+                    if (typingIndicatorTimeout) {
+                        clearTimeout(typingIndicatorTimeout);
+                    }
+                    removeTypingIndicator();
+                    addMessage({ role: 'assistant', text: step.text });
+                    currentStepIndex++;
+                    if (currentStepIndex < scenarioSteps.length && scenarioSteps[currentStepIndex].kind === 'options') {
+                        const optionStep = scenarioSteps[currentStepIndex];
+                        renderOptions(optionStep.cards);
+                        currentStepIndex++;
+                    }
+                    advanceScenario();
+                }, step.delay);
+            } else if (step.kind === 'options') {
+                renderOptions(step.cards);
+                currentStepIndex++;
+                advanceScenario();
+            } else if (step.kind === 'userPrompt') {
+                enableUserInput();
+            }
+        }
+
+        function handleSend() {
+            const text = userInputEl.value.trim();
+            if (!text) return;
+
+            const lowerText = text.toLowerCase();
+            const isAdminSkip = lowerText === 'admin';
+            const isRick = lowerText === 'rick';
+            const isLora = lowerText === 'lora';
+            addMessage({ role: 'user', text });
+            userInputEl.value = '';
+            userInputEl.style.height = 'auto';
+            disableUserInput();
+
+            if (isAdminSkip) {
+                removeTypingIndicator();
+                const adminOptionsIndex = scenarioSteps.findIndex(step => step.kind === 'options');
+                if (adminOptionsIndex !== -1) {
+                    currentStepIndex = adminOptionsIndex;
+                    renderOptions(scenarioSteps[adminOptionsIndex].cards);
+                    currentStepIndex = adminOptionsIndex + 1;
+                    advanceScenario();
+                } else {
+                    finishScenario();
+                }
+            } else if (isRick || isLora) {
+                const url = isRick
+                    ? 'https://www.youtube.com/watch?v=dQw4w9WgXcQ&list=RDdQw4w9WgXcQ&start_radio=1'
+                    : 'https://www.youtube.com/watch?v=XPQlMmMDm-A&list=RDXPQlMmMDm-A&start_radio=1';
+                window.open(url, '_blank', 'noopener');
+                enableUserInput();
+            } else {
+                currentStepIndex++;
+                if (currentStepIndex >= scenarioSteps.length) {
+                    finishScenario();
+                } else {
+                    advanceScenario();
+                }
+            }
+        }
+
+        function finishScenario() {
+            disableUserInput();
+            setTimeout(() => {
+                endOverlayEl.classList.add('active');
+            }, 5000);
+        }
+
+        userInputEl.addEventListener('input', function () {
+            this.style.height = 'auto';
+            this.style.height = `${this.scrollHeight}px`;
+            sendButtonEl.disabled = this.value.trim().length === 0;
+        });
+
+        userInputEl.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                if (!sendButtonEl.disabled) {
+                    handleSend();
+                }
+            }
+        });
+
+        sendButtonEl.addEventListener('click', handleSend);
+
+        closeOverlayButtonEl.addEventListener('click', () => {
+            endOverlayEl.classList.remove('active');
+        });
+
+        window.addEventListener('load', () => {
+            advanceScenario();
+        });
+    </script>
+</body>
+</html>
+
