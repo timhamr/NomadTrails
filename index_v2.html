@@ -615,22 +615,22 @@
 
         const assistantPortrait = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxNjAgMTYwJz48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9J2JnJyB4MT0nMCUnIHkxPScwJScgeDI9JzEwMCUnIHkyPScxMDAlJz48c3RvcCBvZmZzZXQ9JzAlJyBzdG9wLWNvbG9yPScjMWQ0ZjkxJy8+PHN0b3Agb2Zmc2V0PScxMDAlJyBzdG9wLWNvbG9yPScjMjg3YmE1Jy8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3Qgd2lkdGg9JzE2MCcgaGVpZ2h0PScxNjAnIHJ4PScyNCcgZmlsbD0ndXJsKCNiZyknLz48Y2lyY2xlIGN4PSc4MCcgY3k9JzY4JyByPSczMicgZmlsbD0nI2Y3Y2NiMCcvPjxwYXRoIGQ9J004MCAxMDRjLTMyIDAtNDggMjAtNDggMzh2Nmg5NnYtNmMwLTE4LTE2LTM4LTQ4LTM4eicgZmlsbD0nI2YxZjVmOScvPjxwYXRoIGQ9J004MCAzMmMtMTggMC0zMiAxNC0zMiAzMiAwIDQgMSA4IDMgMTIgOC00IDE3LTcgMjktN3MyMSAzIDI5IDdjMi00IDMtOCAzLTEyIDAtMTgtMTQtMzItMzItMzJ6JyBmaWxsPScjZjU5ZTBiJy8+PGNpcmNsZSBjeD0nNjUnIGN5PSc3Micgcj0nNCcgZmlsbD0nIzFmMjkzNycvPjxjaXJjbGUgY3g9Jzk1JyBjeT0nNzInIHI9JzQnIGZpbGw9JyMxZjI5MzcnLz48cGF0aCBkPSdNNzAgOTBjNCA0IDEwIDYgMTAgNnM2LTIgMTAtNicgc3Ryb2tlPScjMWYyOTM3JyBzdHJva2Utd2lkdGg9JzMnIHN0cm9rZS1saW5lY2FwPSdyb3VuZCcgZmlsbD0nbm9uZScvPjxwYXRoIGQ9J001MiAxMjJjMTIgMTQgMjggMTggMjggMThzMTYtNCAyOC0xOGMtOC02LTE3LTEwLTI4LTEwcy0yMCA0LTI4IDEweicgZmlsbD0nI2UyZThmMCcvPjwvc3ZnPg==';
         const scenarioSteps = [
-            { kind: 'bot', delay: 5000, text: 'Hi, welcome to Nomad Trails Campervan Rentals! I\'m Mr. Tim Alexander, your personal assistant. How can I help you today?' },
+            { kind: 'bot', delay: 200, text: 'Hi, welcome to Nomad Trails Campervan Rentals! I\'m Mr. Tim Alexander, your personal assistant. How can I help you today?' },
             { kind: 'userPrompt' },
-            { kind: 'bot', delay: 5000, text: 'Okay, I see. Let\'s find out which camper might be a good fit for you. How many people will be traveling with you? Are you travelling with adults only or are there kids travelling with you?' },
+            { kind: 'bot', delay: 200, text: 'Okay, I see. Let\'s find out which camper might be a good fit for you. How many people will be traveling with you? Are you travelling with adults only or are there kids travelling with you?' },
             { kind: 'userPrompt' },
-            { kind: 'bot', delay: 5000, text: 'In view of your travel constellation, would you like separate sleeping areas, for example one space for adults and one space for kids?' },
+            { kind: 'bot', delay: 200, text: 'In view of your travel constellation, would you like separate sleeping areas, for example one space for adults and one space for kids?' },
             { kind: 'userPrompt' },
-            { kind: 'bot', delay: 5000, text: 'Okay, noted. In which month and for how long do you plan to travel with the camper van? ' },
+            { kind: 'bot', delay: 200, text: 'Okay, noted. In which month and for how long do you plan to travel with the camper van? ' },
             { kind: 'userPrompt' },
-            { kind: 'bot', delay: 5000, text: 'For a trip that length, the bathroom setup is important. Do you prefer a shower and toilet inside the campervan, or are you fine using campground facilities?' },
+            { kind: 'bot', delay: 200, text: 'For a trip that length, the bathroom setup is important. Do you prefer a shower and toilet inside the campervan, or are you fine using campground facilities?' },
             { kind: 'userPrompt' },
-            { kind: 'bot', delay: 5000, text: 'Mhm, I understand. Apart from the mentioned aspects, are there any specific features that are important to you?' },
+            { kind: 'bot', delay: 200, text: 'Mhm, I understand. Apart from the mentioned aspects, are there any specific features that are important to you?' },
             { kind: 'userPrompt' },
-            { kind: 'bot', delay: 5000, text: 'Okay, I will take this into account in my recommendations. To tailor them to your budget, please let me know how much you plan to spend on your camper rental per day. What is your approximate rental budget per day?' },
+            { kind: 'bot', delay: 200, text: 'Okay, I will take this into account in my recommendations. To tailor them to your budget, please let me know how much you plan to spend on your camper rental per day. What is your approximate rental budget per day?' },
             { kind: 'userPrompt' },
-            { kind: 'bot', delay: 5000, text: 'Good, we are getting there. I will now check the availability of our campers that match your preferences.' },
-            { kind: 'bot', delay: 20000, text: 'Here we go—these are the three options that best suit your preferences:' },
+            { kind: 'bot', delay: 200, text: 'Good, we are getting there. I will now check the availability of our campers that match your preferences.' },
+            { kind: 'bot', delay: 200, text: 'Here we go—these are the three options that best suit your preferences:' },
             {
                 kind: 'options',
                 cards: [
@@ -660,13 +660,13 @@
                     }
                 ]
             },
-            { kind: 'bot', delay: 5000, text: 'Which one is your favorite option?' },
+            { kind: 'bot', delay: 200, text: 'Which one is your favorite option?' },
             { kind: 'userPrompt' },
-            { kind: 'bot', delay: 5000, text: 'Alright - do you want me to reserve this camper for you? Reservations hold for one week and are free of charge, with no obligation for you.' },
+            { kind: 'bot', delay: 200, text: 'Alright - do you want me to reserve this camper for you? Reservations hold for one week and are free of charge, with no obligation for you.' },
             { kind: 'userPrompt' },
-            { kind: 'bot', delay: 20000, text: 'So, the reservation is completed now and the camper is reserved for you. Your reservation number is A250. You have now one week to confirm the reservation by phone or by mail. \nIs there anything else I can do for you?' },
+            { kind: 'bot', delay: 200, text: 'So, the reservation is completed now and the camper is reserved for you. Your reservation number is A250. You have now one week to confirm the reservation by phone or by mail. \nIs there anything else I can do for you?' },
             { kind: 'userPrompt' },
-            { kind: 'bot', delay: 5000, text: 'Thanks for the conversation, and enjoy your vacation.' }
+            { kind: 'bot', delay: 200, text: 'Thanks for the conversation, and enjoy your vacation.' }
         ];
 
         let currentStepIndex = 0;
