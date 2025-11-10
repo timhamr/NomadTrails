@@ -116,15 +116,7 @@
         }
 
         .chat-header-avatar::after {
-            content: '';
-            position: absolute;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #34D399;
-            border: 2px solid #FFFFFF;
-            bottom: 4px;
-            right: 4px;
+            display: none;
         }
 
         .chat-header-text h2 {
@@ -744,7 +736,7 @@
 
             const avatar = document.createElement('div');
             avatar.className = 'assistant-avatar';
-            avatar.textContent = 'PA';
+            avatar.textContent = 'CB';
             row.appendChild(avatar);
 
             const contentWrapper = document.createElement('div');
