@@ -142,12 +142,7 @@
         }
 
         .chat-header-text .online-status::before {
-            content: '';
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #34D399;
-            box-shadow: 0 0 0 4px rgba(52, 211, 153, 0.2);
+            display: none;
         }
 
         .chat-messages {
@@ -540,7 +535,7 @@
                 <div class="chat-header-text">
                     <h2>Chatbot</h2>
                     <span>Nomad Trails Campervan Rentals</span>
-                    <div class="online-status" role="status" aria-live="polite">Online</div>
+                    <div class="online-status" role="status" aria-live="polite"></div>
                 </div>
             </div>
             <div class="chat-messages" id="chatMessages" aria-live="polite"></div>
