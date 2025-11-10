@@ -540,7 +540,9 @@
     <main>
         <div class="chat-shell">
             <div class="chat-header">
-                <div class="chat-header-avatar" aria-label="Chatbot online">CB</div>
+                <div class="chat-header-avatar" aria-label="Chatbot online">
+                    <img src="chatbot.png" alt="Chatbot avatar">
+                </div>
                 <div class="chat-header-text">
                     <h2>Chatbot</h2>
                     <span>Nomad Trails Camper Van Rentals</span>
@@ -572,6 +574,7 @@
 
         const assistantName = 'Chatbot, Nomad Trails';
         const userName = 'You';
+        const assistantPortrait = 'chatbot.png';
 
         const vanIllustrations = [
             {
@@ -665,7 +668,11 @@
             if (role === 'assistant') {
                 const avatar = document.createElement('div');
                 avatar.className = 'assistant-avatar';
-                avatar.textContent = 'CB';
+                const avatarImg = document.createElement('img');
+                avatarImg.src = assistantPortrait;
+                avatarImg.alt = 'Chatbot avatar';
+                avatarImg.loading = 'lazy';
+                avatar.appendChild(avatarImg);
                 row.appendChild(avatar);
 
                 const contentWrapper = document.createElement('div');
@@ -757,7 +764,11 @@
 
             const avatar = document.createElement('div');
             avatar.className = 'assistant-avatar';
-            avatar.textContent = 'CB';
+            const avatarImg = document.createElement('img');
+            avatarImg.src = assistantPortrait;
+            avatarImg.alt = 'Chatbot avatar';
+            avatarImg.loading = 'lazy';
+            avatar.appendChild(avatarImg);
             row.appendChild(avatar);
 
             const contentWrapper = document.createElement('div');
