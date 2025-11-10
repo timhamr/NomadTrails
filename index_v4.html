@@ -562,7 +562,7 @@
     <div class="end-overlay" id="endOverlay">
         <div class="end-modal">
             <h3>Thanks for sharing your plans!</h3>
-            <p>Our personal assistant saved the information you provided. A Nomad Trails specialist will follow up shortly with photos and booking details.</p>
+            <p>You can now close this chat and return to the survey whenever you&rsquo;re ready.</p>
             <button id="closeOverlayButton" type="button">Close chat</button>
         </div>
     </div>
@@ -574,7 +574,7 @@
         const endOverlayEl = document.getElementById('endOverlay');
         const closeOverlayButtonEl = document.getElementById('closeOverlayButton');
 
-        const assistantName = 'Nomad Trails Personal Assistant';
+        const assistantName = 'Chatbot, Nomad Trails';
         const userName = 'You';
 
         const vanIllustrations = [
@@ -669,7 +669,7 @@
             if (role === 'assistant') {
                 const avatar = document.createElement('div');
                 avatar.className = 'assistant-avatar';
-                avatar.textContent = 'PA';
+                avatar.textContent = 'CB';
                 row.appendChild(avatar);
 
                 const contentWrapper = document.createElement('div');
