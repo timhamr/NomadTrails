@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nomad Trails Campervan Rentals – Personal Assistant Chat</title>
+    <title>Nomad Trails Camper Van Rentals – Personal Assistant Chat</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -109,10 +109,14 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 600;
-            font-size: 18px;
-            color: var(--brand-primary);
             position: relative;
+            overflow: hidden;
+        }
+
+        .chat-header-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .chat-header-avatar::after {
@@ -329,8 +333,13 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 600;
-            color: var(--brand-primary);
+            overflow: hidden;
+        }
+
+        .assistant-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .assistant .assistant-avatar {
@@ -515,16 +524,16 @@
 <body>
     <header>
         <div>
-            <h1>Nomad Trails Campervan Rentals</h1>
+            <h1>Nomad Trails Camper Van Rentals</h1>
             <p>459 Evergreen Avenue<br>Portland, OR 97209, USA</p>
             <p>Email: <a href="mailto:hello@nomadtrailsvans.com" style="color:#F9FAFB;">hello@nomadtrailsvans.com</a><br>
                Phone: <a href="tel:+15035551234" style="color:#F9FAFB;">+1 (503) 555-1234</a></p>
             <div class="brand-tagline">
-                Adventure-ready vehicles, fully equipped for your next road trip. Tell us about your plans and we’ll match you with the perfect campervan.
+                Adventure-ready vehicles, fully equipped for your next road trip. Tell us about your plans and we’ll match you with the perfect camper van.
             </div>
         </div>
         <footer style="font-size:13px; color:rgba(249,250,251,0.65);">
-            © 2025 Nomad Trails Campervan Rentals. All rights reserved.
+            © 2025 Nomad Trails Camper Van Rentals. All rights reserved.
         </footer>
     </header>
 
@@ -534,7 +543,7 @@
                 <div class="chat-header-avatar" aria-label="Chatbot online">CB</div>
                 <div class="chat-header-text">
                     <h2>Chatbot</h2>
-                    <span>Nomad Trails Campervan Rentals</span>
+                    <span>Nomad Trails Camper Van Rentals</span>
                     <div class="online-status" role="status" aria-live="polite"></div>
                 </div>
             </div>
@@ -568,36 +577,36 @@
             {
                 webp: 'Blue.webp',
                 fallback: 'Blue.png',
-                alt: 'Pacific Horizon XL campervan'
+                alt: 'Pacific Horizon XL camper van'
             },
             {
                 webp: 'Orange.webp',
                 fallback: 'Orange.png',
-                alt: 'Sunset Seeker L2 campervan'
+                alt: 'Sunset Seeker L2 camper van'
             },
             {
                 webp: 'Green.webp',
                 fallback: 'Green.png',
-                alt: 'Evergreen Trekker 4x4 campervan'
+                alt: 'Evergreen Trekker 4x4 camper van'
             }
         ];
 
         const scenarioSteps = [
-            { kind: 'bot', delay: 200, text: 'Hi, welcome to Nomad Trails Campervan Rentals! I\'m your fully automated personal assistant. How can I help you today?' },
+            { kind: 'bot', delay: 200, text: 'Hi, welcome to Nomad Trails Camper Van Rentals! I\'m your fully automated personal assistant. How can I help you today?' },
             { kind: 'userPrompt' },
-            { kind: 'bot', delay: 200, text: 'Okay, I see. Let\'s find out which camper might be a good fit for you. How many people will be traveling with you? Are you travelling with adults only or are there kids travelling with you?' },
+            { kind: 'bot', delay: 200, text: 'Okay, I see. Let\'s find out which camper van might be a good fit for you. How many people will be traveling with you? Are you travelling with adults only or are there kids travelling with you?' },
             { kind: 'userPrompt' },
             { kind: 'bot', delay: 200, text: 'In view of your travel constellation, would you like separate sleeping areas? For example, one space for adults and one space for kids?' },
             { kind: 'userPrompt' },
             { kind: 'bot', delay: 200, text: 'Okay, noted. In which month and for how long do you plan to travel with the camper van? ' },
             { kind: 'userPrompt' },
-            { kind: 'bot', delay: 200, text: 'For a trip that length, the bathroom setup is important. Do you prefer a shower and toilet inside the campervan, or are you fine using campground facilities?' },
+            { kind: 'bot', delay: 200, text: 'For a trip that length, the bathroom setup is important. Do you prefer a shower and toilet inside the camper van, or are you fine using campground facilities?' },
             { kind: 'userPrompt' },
             { kind: 'bot', delay: 200, text: 'Mhm, I understand. Apart from the mentioned aspects, are there any specific features that are important to you?' },
             { kind: 'userPrompt' },
-            { kind: 'bot', delay: 200, text: 'Okay, I will take this into account in my recommendations. To tailor them to your budget, please let me know how much you plan to spend on your camper rental per day. What is your approximate rental budget per day?' },
+            { kind: 'bot', delay: 200, text: 'Okay, I will take this into account in my recommendations. To tailor them to your budget, please let me know how much you plan to spend on your camper van rental per day.' },
             { kind: 'userPrompt' },
-            { kind: 'bot', delay: 200, text: 'Good, we are getting there. I will now check the availability of our campers that match your preferences.' },
+            { kind: 'bot', delay: 200, text: 'Good, we are getting there. I will now check the availability of our camper vans that match your preferences.' },
             { kind: 'bot', delay: 200, text: 'Here we go—these are the three options that best suit your preferences:' },
             {
                 kind: 'options',
@@ -630,11 +639,11 @@
             },
             { kind: 'bot', delay: 200, text: 'Which one is your favorite option?' },
             { kind: 'userPrompt' },
-            { kind: 'bot', delay: 200, text: 'Alright - do you want me to reserve this camper for you? Reservations hold for one week and are free of charge, with no obligation for you.' },
+            { kind: 'bot', delay: 200, text: 'Alright - do you want me to reserve this camper van for you? Reservations hold for one week and are free of charge, with no obligation for you.' },
             { kind: 'userPrompt' },
-            { kind: 'bot', delay: 200, text: 'So, the reservation is completed now and the camper is reserved for you. Your reservation number is A250. You have now one week to confirm the reservation by phone or by mail. \nIs there anything else I can do for you?' },
+            { kind: 'bot', delay: 200, text: 'So, the reservation is completed now and the camper van is reserved for you. Your reservation number is A250. You have now one week to confirm the reservation by phone or by mail. \nIs there anything else I can do for you?' },
             { kind: 'userPrompt' },
-            { kind: 'bot', delay: 200, text: 'Thanks for the conversation, and enjoy your vacation.' }
+            { kind: 'bot', delay: 200, text: 'Thanks for the conversation and enjoy your vacation.' }
         ];
 
         let currentStepIndex = 0;
@@ -763,7 +772,7 @@
                     if (fallbackSrc) {
                         img.src = fallbackSrc;
                     }
-                    img.alt = card.image.alt || `${card.title} campervan`;
+                    img.alt = card.image.alt || `${card.title} camper van`;
                     img.loading = 'lazy';
                     picture.appendChild(img);
                     if (card.label) {
