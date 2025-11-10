@@ -202,15 +202,6 @@
             box-shadow: 0 6px 15px rgba(20, 100, 160, 0.08);
         }
 
-        .assistant .message-bubble,
-        .user .message-bubble {
-            display: inline-block;
-            max-width: 85%;
-            width: auto;
-            word-break: break-word;
-}
-
-
         .user .message-bubble {
             background: var(--user-bg);
             color: #FFFFFF;
@@ -631,7 +622,7 @@
             { kind: 'userPrompt' },
             { kind: 'bot', delay: 5000, text: 'In view of your travel constellation, would you like separate sleeping areas? For example, one space for adults and one space for kids?' },
             { kind: 'userPrompt' },
-            { kind: 'bot', delay: 5000, text: 'Okay, noted. In which month and for how long do you plan to travel with the camper van? ' },
+            { kind: 'bot', delay: 5000, text: 'Okay, noted. In which month and for how long do you plan to travel with the camper van?' },
             { kind: 'userPrompt' },
             { kind: 'bot', delay: 5000, text: 'For a trip that length, the bathroom setup is important. Do you prefer a shower and toilet inside the camper van, or are you fine using campground facilities?' },
             { kind: 'userPrompt' },
@@ -670,7 +661,7 @@
                     }
                 ]
             },
-            { kind: 'bot', delay: 5000, text: 'Which one is your favorite option?' },
+            { kind: 'bot', delay: 5000, text: 'Which one is your favorite option?', protectedPhrase: 'favorite option', noWrap: true },
             { kind: 'userPrompt' },
             { kind: 'bot', delay: 5000, text: 'Alright - do you want me to reserve this camper van for you? Reservations hold for one week and are free of charge, with no obligation for you.' },
             { kind: 'userPrompt' },
@@ -691,7 +682,7 @@
             chatMessagesEl.scrollTo({ top: chatMessagesEl.scrollHeight, behavior: 'smooth' });
         }
 
-        function addMessage({ role, text }) {
+        function addMessage({ role, text, protectedPhrase, noWrap }) {
             const row = document.createElement('div');
             row.className = `message-row ${role}`;
 
@@ -707,6 +698,9 @@
 
                 const contentWrapper = document.createElement('div');
                 contentWrapper.className = 'message-content';
+                if (noWrap) {
+                    contentWrapper.style.maxWidth = '100%';
+                }
 
                 const meta = document.createElement('div');
                 meta.className = 'meta';
@@ -715,10 +709,24 @@
 
                 const bubble = document.createElement('div');
                 bubble.className = 'message-bubble';
+                if (noWrap) {
+                    bubble.style.whiteSpace = 'nowrap';
+                    bubble.style.display = 'inline-flex';
+                    bubble.style.alignItems = 'center';
+                    bubble.style.maxWidth = '100%';
+                    bubble.style.width = 'auto';
+                }
                 text.split('\n').forEach((segment, index) => {
                     const paragraph = document.createElement('p');
                     paragraph.style.margin = index === 0 ? '0 0 8px' : '0 0 8px';
-                    paragraph.textContent = segment.trim();
+                    const segmentText = segment.trim();
+                    if (protectedPhrase && segmentText.includes(protectedPhrase)) {
+                        const safePhrase = protectedPhrase.split(' ').join('&nbsp;');
+                        const safeHtml = segmentText.split(protectedPhrase).join(safePhrase);
+                        paragraph.innerHTML = safeHtml;
+                    } else {
+                        paragraph.textContent = segmentText;
+                    }
                     if (index === text.split('\n').length - 1) {
                         paragraph.style.marginBottom = '0';
                     }
@@ -925,7 +933,7 @@
                         clearTimeout(typingIndicatorTimeout);
                     }
                     removeTypingIndicator();
-                    addMessage({ role: 'assistant', text: step.text });
+                    addMessage({ role: 'assistant', text: step.text, protectedPhrase: step.protectedPhrase, noWrap: step.noWrap });
                     currentStepIndex++;
                     if (currentStepIndex < scenarioSteps.length && scenarioSteps[currentStepIndex].kind === 'options') {
                         const optionStep = scenarioSteps[currentStepIndex];
