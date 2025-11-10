@@ -728,23 +728,7 @@
         }
 
         function showTypingIndicator() {
-            removeTypingIndicator();
-            const wrapper = document.createElement('div');
-            wrapper.className = 'message-row assistant';
-
-            const avatar = document.createElement('div');
-            avatar.className = 'assistant-avatar';
-            avatar.textContent = 'PA';
-            wrapper.appendChild(avatar);
-
-            const indicator = document.createElement('div');
-            indicator.className = 'typing-indicator';
-            indicator.innerHTML = `<span>${assistantName} is typing</span><span class="typing-dots"><span></span><span></span><span></span></span>`;
-
-            wrapper.appendChild(indicator);
-            chatMessagesEl.appendChild(wrapper);
-            typingIndicatorEl = wrapper;
-            scrollToBottom();
+            return;
         }
 
         function removeTypingIndicator() {
